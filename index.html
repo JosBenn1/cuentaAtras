@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/223/223404.png" type="image/x-icon">
+<title>Cuenta Regresiva</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('https://img.freepik.com/vector-premium/gato-abraza-taza-cafe-grande-ilustracion-vectorial-cafeterias-aisladas-sobre-fondo-blanco-puede-usar-logotipo-menu-o-diseno-tarjeta-felicitacion-volante-camiseta-impresion-o-afiche_174639-53960.jpg'); /* Fondo de café */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #countdown {
+        font-size: 48px; /* Tamaño del texto aumentado */
+        font-weight: bold;
+        text-align: center;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+        border-radius: 10px;
+        font-family: 'Comic Sans MS', cursive; /* Tipo de letra pintoresca */
+    }
+</style>
+</head>
+<body>
+
+<div id="countdown"></div>
+
+<script>
+// Función para calcular la diferencia de tiempo entre dos fechas
+function calcularDiferenciaDeTiempo(fechaFutura, fechaActual) {
+    const diferencia = fechaFutura - fechaActual;
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+    return { dias, horas, minutos, segundos };
+}
+
+// Función para actualizar el contador
+function actualizarContador() {
+    const fechaActual = new Date().getTime();
+    const fechaLimite = new Date('May 2, 2024 00:00:00').getTime(); // Fecha límite: 2 de mayo de 2024
+
+    const diferencia = calcularDiferenciaDeTiempo(fechaLimite, fechaActual);
+
+    document.getElementById('countdown').innerHTML = `
+        Faltan ${diferencia.dias} días, 
+        ${diferencia.horas} horas, 
+        ${diferencia.minutos} minutos, 
+        ${diferencia.segundos} segundos
+        `;
+
+    // Si la fecha límite ha pasado, detenemos el contador
+    if (fechaLimite < fechaActual) {
+        clearInterval(intervalo);
+        document.getElementById('countdown').style.fontSize = "72px"; // Aumentar tamaño del texto
+        document.getElementById('countdown').style.fontFamily = "'Comic Sans MS', cursive"; // Cambiar tipo de letra
+        document.getElementById('countdown').innerHTML = "¡Feliz Cumpleaños 🎉🎂🥳!";
+        document.body.style.backgroundImage = "url('https://i.pinimg.com/originals/50/36/57/5036576e3cd941fa0bb2ed0bbdfa1dec.jpg')"; // Cambiar el fondo
+    }
+}
+
+// Actualizar el contador cada segundo
+const intervalo = setInterval(actualizarContador, 1000);
+
+// Actualizar el contador al cargar la página
+actualizarContador();
+</script>
+
+</body>
+</html>
